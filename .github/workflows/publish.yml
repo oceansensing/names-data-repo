@@ -20,6 +20,12 @@ on:
         description: 'Rebuild even if the probe says the tree is current'
         type: boolean
         default: false
+      # **A dispatch's `due` names steps whose source is read now** whatever their interval (the names and the
+      # borders are made monthly): `due=borders`, `due=names,borders` or `due=all`.
+      due:
+        description: 'Steps due now whatever their interval (a comma list, or all)'
+        type: string
+        default: ''
   # Daily since 2026-11-11, the first dispatched run read (43146399308: 64,580 names, fresh); the build itself once
   # in 720 hours (`every_hours`), so a month whose sources were down is made the next day.
   schedule:
@@ -85,6 +91,21 @@ jobs:
         env:
           PIPELINE_ROOT: ${{ github.workspace }}
         run: python3 site/pipeline/orchestrate.py seed
+      # **The borders' tree as last published, from the cache, under the version its root names** (2026-11-12): the
+      # branch keeps the root alone, and a tree the stage lacks would be published absent — so the run would not
+      # deploy (`guard_trees`). A cache that misses costs one build: the fetcher makes the borders again when the
+      # stage lacks the version its root names.
+      - name: The published borders' version
+        id: tree
+        run: |
+          v=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('version') or 'none')" published/map/district-borders.json 2>/dev/null || echo none)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Restore the borders' tiles
+        id: borders-tiles
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: site/public/map/land/district-borders
+          key: land-district-borders-${{ steps.tree.outputs.version }}
       - name: Plan the run
         id: plan
         env:
@@ -94,7 +115,22 @@ jobs:
         id: run
         env:
           PIPELINE_ROOT: ${{ github.workspace }}
+          PIPELINE_DUE_NOW: ${{ inputs.due }}
         run: python3 site/pipeline/orchestrate.py run
+      # A set this run made anew is saved under its own version, for the next run to restore — and so is one its
+      # restore missed, or every run after the cache was evicted would miss it again and build it again.
+      - name: Name the borders' set on the stage
+        id: set
+        if: always()
+        run: |
+          v=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('version') or 'none')" site/public/map/land/district-borders/index.json 2>/dev/null || echo none)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Save the borders' tiles
+        if: steps.run.outputs.deploy == 'true' && steps.set.outputs.version != 'none' && (steps.set.outputs.version != steps.tree.outputs.version || steps.borders-tiles.outputs.cache-hit != 'true')
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: site/public/map/land/district-borders
+          key: land-district-borders-${{ steps.set.outputs.version }}
       - name: Upload the build
         if: steps.run.outputs.deploy == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

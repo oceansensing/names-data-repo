@@ -10,6 +10,8 @@ got wrong and the shared doc doctrine.
 
 The names of land and water as label points, once a month, in one file, `names.json`: each name with its kind (ocean, sea, strait, country, capital, city, state or province, county, district, land region, peak, lake, river, undersea feature), a detail (a state's type, a district's term in its country, an undersea feature's kind), the point it is written at, **the zoom it is named from** (and to, where its source says), a peak's height, its country, and **its parent** — the state or province and the country it is in. Rows in the order a map places them: by kind's rank, then by zoom, the larger or better known first. The header credits every source and each district country's license, source and term. R2's alone.
 
+**And the districts' and counties' borders** (since 2026-11-12, the product `borders`): the edges two of the areas the names name share — the Census's counties and the districts of each country kept — never a coast or a country's outer edge. A root, `district-borders.json`, names a version of the tree `land/district-borders/`, whose `index.json` names its two tiers and their tiles: **coarse**, simplified to 0.002° in 20° tiles, drawn to zoom 9; **fine**, the sources' own detail in 5° tiles, from zoom 9. Each tile is `{"lines": [[[lon, lat], …], …]}`, named `<south>_<west>`. The root credits the same sources as `names.json`. R2's alone; the tree carried between runs by the workflow's cache, made again once a month or when a run's stage lacks it.
+
 These products are published to **Cloudflare R2 alone**, for a downstream reader: no Pages site,
 and the website neither draws nor lists them (the site pipeline's D13).
 
