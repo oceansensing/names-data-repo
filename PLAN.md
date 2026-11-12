@@ -1,7 +1,9 @@
 # names-data-repo: the founding plan and running record
 
 The **names** of land and water, and their administrative context. Created on GitHub by the owner and given its documents by the site's
-`pipeline/scaffold/new-origin.py`. **Nothing is published yet.**
+`pipeline/scaffold/new-origin.py`. **Publishing since 2026-11-11** (the first dispatched run, `43146399308`, 03:13 UTC
+on the 12th: 64,580 names, 5.7 MB, `names` fresh, five files to R2), **its schedule daily** since, the build once a
+month.
 
 ## What it is for
 
@@ -13,6 +15,7 @@ The names of land and water as label points, once a month, in one file, `names.j
 
 ## Open
 
-1. The first dispatched run, read: `names.json` on R2, its count, its countries and their credits.
-2. Then the daily schedule, the month's build once in 720 hours.
+1. ~~The first dispatched run, read~~ — 2026-11-11, run `43146399308`: 64,580 names (116 countries' districts, 46 left
+   out by their licenses), 5,697,601 bytes, fresh, five files to R2.
+2. The daily schedule, on since 2026-11-11, the month's build once in 720 hours: the next build read when it comes.
 3. Countries whose districts their licenses leave out, each from a national source whose terms allow it, as they are read.

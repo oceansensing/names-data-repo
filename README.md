@@ -3,7 +3,7 @@
 The **names** of land and water, and their administrative context: a data repository of the oceansensing ocean map system, with its own
 schedule and its own place on Cloudflare R2, and no code of its own.
 
-**Nothing is published yet.** `PLAN.md` is the founding plan; `CLAUDE.md` carries what must not be
+**Publishing since 2026-11-11**, once a month. `PLAN.md` is the founding plan; `CLAUDE.md` carries what must not be
 got wrong and the shared doc doctrine.
 
 ## What it publishes

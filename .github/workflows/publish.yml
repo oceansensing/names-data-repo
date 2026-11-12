@@ -20,8 +20,10 @@ on:
         description: 'Rebuild even if the probe says the tree is current'
         type: boolean
         default: false
-  # schedule:
-  #   - cron: '23 5 * * *'
+  # Daily since 2026-11-11, the first dispatched run read (43146399308: 64,580 names, fresh); the build itself once
+  # in 720 hours (`every_hours`), so a month whose sources were down is made the next day.
+  schedule:
+    - cron: '23 5 * * *'
 
 permissions: {}
 
