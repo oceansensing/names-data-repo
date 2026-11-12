@@ -157,7 +157,7 @@ fact from a guess that aged.
 - **GeoNames is edited by many hands**: an entry that is no feature of the sea floor is left out by name.
 - **Every file is the site's to write**: `scripts/fetch-names.py` fetches, `scripts/check-names.py` checks. Nothing here runs code of its own.
 - **A source down is exit 75**: the product is held, its staleness `upstream`, and the next day's run tries again.
-- **The borders' tree is the cache's, never the branch's** (D2): a run whose stage lacks a tree it published does not deploy (the orchestrator's `guard_trees`), so the borders' fetcher makes the tree again whenever the stage lacks the version its root names. Keep the restore and save steps in the workflow beside the step, and the cache key the root's version.
+- **The borders' tree is the cache's, never the branch's** (D2): a run whose stage lacks a tree it published does not deploy (the orchestrator's `guard_trees`), so the borders' fetcher makes the tree again whenever the stage lacks the version its root names. **The areas' tree the same** (D3). Keep each tree's restore and save steps in the workflow beside the step, and the cache key the root's version.
 
 ### Rules inherited from the sibling data repositories
 

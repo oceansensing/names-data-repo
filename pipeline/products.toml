@@ -18,6 +18,13 @@
 # workflow's cache**, never the branch; the step runs every run and its fetcher makes the borders again only
 # when due — once a month, where the stage lacks the version the root names (a cache missed), or asked by a
 # dispatch (`due=borders`) — fetching about 300 MB (geoBoundaries and the Census, not GeoNames).
+#
+# **And the named areas' outlines** (2026-11-12, `areas`): each area the names name — its outline simplified to
+# 0.002° (about 220 m), with its name, its country's term for it and its state or province — so a reader can say
+# which district or county a point is in. A root, `district-areas.json`, names a version of the tree
+# `land/district-areas/`: 5° tiles, 678 of them and 63 MB at the first build (35,785 areas). Made by the borders'
+# step from the same download, due on its own (monthly, its version missing from the stage, or `due=areas`), its tree
+# carried by the workflow's cache as the borders' is.
 
 [contract]
 check = ["python3", "scripts/check-names.py"]
@@ -33,9 +40,9 @@ timeout_minutes = 60
 every_hours = 720
 
 [steps.borders]
-cmd = ["python3", "scripts/fetch-names.py", "--only=borders"]
+cmd = ["python3", "scripts/fetch-names.py", "--only=borders,areas"]
 lane = "www.geoboundaries.org"
-timeout_minutes = 45
+timeout_minutes = 60
 
 [products.names]
 title = "The names of land and water and their administrative context, as label points with the zoom each is named from (Natural Earth, GeoNames, the U.S. Census Bureau, geoBoundaries)"
@@ -52,4 +59,13 @@ roots = ["district-borders.json"]
 writes = ["district-borders.json"]
 namespace = ["python3", "scripts/fetch-names.py", "--namespace", "--only=borders"]
 trees = ["land/district-borders"]
+max_age_hours = 840
+
+[products.areas]
+title = "The named areas' outlines: each district's and county's outline with its name, its country's term for it and its state or province, in 5° tiles (geoBoundaries, the U.S. Census Bureau)"
+step = "borders"
+roots = ["district-areas.json"]
+writes = ["district-areas.json"]
+namespace = ["python3", "scripts/fetch-names.py", "--namespace", "--only=areas"]
+trees = ["land/district-areas"]
 max_age_hours = 840

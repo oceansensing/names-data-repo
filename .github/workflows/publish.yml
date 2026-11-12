@@ -20,8 +20,8 @@ on:
         description: 'Rebuild even if the probe says the tree is current'
         type: boolean
         default: false
-      # **A dispatch's `due` names steps whose source is read now** whatever their interval (the names and the
-      # borders are made monthly): `due=borders`, `due=names,borders` or `due=all`.
+      # **A dispatch's `due` names steps whose source is read now** whatever their interval (the names, the
+      # borders and the areas are made monthly): `due=borders`, `due=areas`, `due=names,borders` or `due=all`.
       due:
         description: 'Steps due now whatever their interval (a comma list, or all)'
         type: string
@@ -106,6 +106,18 @@ jobs:
         with:
           path: site/public/map/land/district-borders
           key: land-district-borders-${{ steps.tree.outputs.version }}
+      # **And the areas' tree** (2026-11-12), the same way: its root names its version, the cache holds its tiles.
+      - name: The published areas' version
+        id: areas-tree
+        run: |
+          v=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('version') or 'none')" published/map/district-areas.json 2>/dev/null || echo none)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Restore the areas' tiles
+        id: areas-tiles
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: site/public/map/land/district-areas
+          key: land-district-areas-${{ steps.areas-tree.outputs.version }}
       - name: Plan the run
         id: plan
         env:
@@ -131,6 +143,18 @@ jobs:
         with:
           path: site/public/map/land/district-borders
           key: land-district-borders-${{ steps.set.outputs.version }}
+      - name: Name the areas' set on the stage
+        id: areas-set
+        if: always()
+        run: |
+          v=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('version') or 'none')" site/public/map/land/district-areas/index.json 2>/dev/null || echo none)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Save the areas' tiles
+        if: steps.run.outputs.deploy == 'true' && steps.areas-set.outputs.version != 'none' && (steps.areas-set.outputs.version != steps.areas-tree.outputs.version || steps.areas-tiles.outputs.cache-hit != 'true')
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: site/public/map/land/district-areas
+          key: land-district-areas-${{ steps.areas-set.outputs.version }}
       - name: Upload the build
         if: steps.run.outputs.deploy == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
