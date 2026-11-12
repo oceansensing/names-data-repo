@@ -1,0 +1,32 @@
+# What this repository publishes: the names of land and water and their administrative context, as label
+# points — each name with the zoom it is named from — in one file, `names.json`: Natural Earth's oceans,
+# seas, countries, capitals, cities, states and provinces, land regions, peaks, lakes and rivers; GeoNames'
+# undersea features; the U.S. Census Bureau's counties; geoBoundaries' second-level areas where each
+# country's own license allows commercial use. The fetcher is the site's `scripts/fetch-names.py` and the
+# contract its `scripts/check-names.py`: no file the website's map reads, so `test-schema.mjs` does not
+# describe it.
+#
+# **Once a month** (`every_hours = 720`), the schedule asking daily so a month whose sources were down is
+# made the next day: the sources change by the year, GeoNames by the day but its sea floor seldom. A run
+# fetches about 700 MB — GeoNames' whole dump the most of it — and builds in under a minute.
+
+[contract]
+check = ["python3", "scripts/check-names.py"]
+roots = ["python3", "scripts/check-names.py", "--roots"]
+
+[defaults]
+timeout_minutes = 20
+
+[steps.names]
+cmd = ["python3", "scripts/fetch-names.py", "--only=names"]
+lane = "download.geonames.org"
+timeout_minutes = 60
+every_hours = 720
+
+[products.names]
+title = "The names of land and water and their administrative context, as label points with the zoom each is named from (Natural Earth, GeoNames, the U.S. Census Bureau, geoBoundaries)"
+step = "names"
+roots = ["names.json"]
+writes = ["names.json"]
+namespace = ["python3", "scripts/fetch-names.py", "--namespace", "--only=names"]
+max_age_hours = 840
