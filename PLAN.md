@@ -23,4 +23,7 @@ The names of land and water as label points, once a month, in one file, `names.j
 3. Countries whose districts their licenses leave out, each from a national source whose terms allow it, as they are read.
 4. **The borders** (2026-11-12): declared, the workflow's cache pair and its `due` input added, rehearsed with the
    site's fetcher and contract (both products fresh, the tree on the stage, 80 MB built); the first dispatched run with
-   them (`due=borders`) to read, and the next scheduled run's restore of the tree from the cache.
+   them (`due=borders`) to read, and the next scheduled run's restore of the tree from the cache. **Read**: run
+   `43225006713` (2026-11-12, 13:12–13:15 UTC), the borders step ok — 99,800 lines, version `ebdbaa8252bf`, 78 coarse
+   and 617 fine tiles — `borders` fresh, `names` carried, deploy true, the cache saved under the version, 703 files on
+   R2. The next scheduled run's restore of the tree from the cache still to read.
