@@ -21,7 +21,8 @@ on:
         type: boolean
         default: false
       # **A dispatch's `due` names steps whose source is read now** whatever their interval (the names, the
-      # borders and the areas are made monthly): `due=borders`, `due=areas`, `due=names,borders` or `due=all`.
+      # borders, the areas and the EEZ boundaries are made monthly): `due=borders`, `due=areas`, `due=eez`,
+      # `due=names,borders` or `due=all`.
       due:
         description: 'Steps due now whatever their interval (a comma list, or all)'
         type: string
@@ -118,6 +119,18 @@ jobs:
         with:
           path: site/public/map/land/district-areas
           key: land-district-areas-${{ steps.areas-tree.outputs.version }}
+      # **And the EEZ boundaries' tree** (2026-11-13), the same way.
+      - name: The published EEZ boundaries' version
+        id: eez-tree
+        run: |
+          v=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('version') or 'none')" published/map/eez-boundaries.json 2>/dev/null || echo none)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Restore the EEZ boundaries' tiles
+        id: eez-tiles
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: site/public/map/land/eez-boundaries
+          key: land-eez-boundaries-${{ steps.eez-tree.outputs.version }}
       - name: Plan the run
         id: plan
         env:
@@ -155,6 +168,18 @@ jobs:
         with:
           path: site/public/map/land/district-areas
           key: land-district-areas-${{ steps.areas-set.outputs.version }}
+      - name: Name the EEZ boundaries' set on the stage
+        id: eez-set
+        if: always()
+        run: |
+          v=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('version') or 'none')" site/public/map/land/eez-boundaries/index.json 2>/dev/null || echo none)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Save the EEZ boundaries' tiles
+        if: steps.run.outputs.deploy == 'true' && steps.eez-set.outputs.version != 'none' && (steps.eez-set.outputs.version != steps.eez-tree.outputs.version || steps.eez-tiles.outputs.cache-hit != 'true')
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: site/public/map/land/eez-boundaries
+          key: land-eez-boundaries-${{ steps.eez-set.outputs.version }}
       - name: Upload the build
         if: steps.run.outputs.deploy == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

@@ -25,6 +25,14 @@
 # `land/district-areas/`: 5° tiles, 678 of them and 63 MB at the first build (35,785 areas). Made by the borders'
 # step from the same download, due on its own (monthly, its version missing from the stage, or `due=areas`), its tree
 # carried by the workflow's cache as the borders' is.
+#
+# **And the EEZ boundaries** (2026-11-13, `eez`): every line of Marine Regions' Maritime Boundaries Geodatabase
+# (`eez_boundaries`, Flanders Marine Institute, CC BY 4.0), the baselines included, each classed by its type — a
+# zone's limit, a boundary, a joint regime, a line in dispute, a baseline, a connection line. A root,
+# `eez-boundaries.json`, names a version of the tree `land/eez-boundaries/`: three tiers of line tiles (the world in
+# 90° tiles to zoom 4, 30° tiles from 4 to 8, the source's detail in 10° tiles from 8), about 16 MB, 2,349 lines, 443
+# tiles (2026-11-13, measured). Made monthly by a step of its own, from one 25 MB request to Marine Regions' WFS; the
+# tree carried by the workflow's cache as the borders' is; R2 alone, as all of this repository is.
 
 [contract]
 check = ["python3", "scripts/check-names.py"]
@@ -43,6 +51,11 @@ every_hours = 720
 cmd = ["python3", "scripts/fetch-names.py", "--only=borders,areas"]
 lane = "www.geoboundaries.org"
 timeout_minutes = 60
+
+[steps.eez]
+cmd = ["python3", "scripts/fetch-names.py", "--only=eez"]
+lane = "geo.vliz.be"
+timeout_minutes = 20
 
 [products.names]
 title = "The names of land and water and their administrative context, as label points with the zoom each is named from (Natural Earth, GeoNames, the U.S. Census Bureau, geoBoundaries)"
@@ -68,4 +81,13 @@ roots = ["district-areas.json"]
 writes = ["district-areas.json"]
 namespace = ["python3", "scripts/fetch-names.py", "--namespace", "--only=areas"]
 trees = ["land/district-areas"]
+max_age_hours = 840
+
+[products.eez]
+title = "The EEZ boundaries: every line of the Maritime Boundaries Geodatabase, each classed by its type, in three tiers of line tiles (Flanders Marine Institute, MarineRegions.org)"
+step = "eez"
+roots = ["eez-boundaries.json"]
+writes = ["eez-boundaries.json"]
+namespace = ["python3", "scripts/fetch-names.py", "--namespace", "--only=eez"]
+trees = ["land/eez-boundaries"]
 max_age_hours = 840
