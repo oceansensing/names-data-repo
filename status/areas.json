@@ -1,0 +1,24 @@
+{
+ "schema": 1,
+ "product": "areas",
+ "title": "The named areas' outlines: each district's and county's outline with its name, its country's term for it and its state or province, in 5\u00b0 tiles (geoBoundaries, the U.S. Census Bureau)",
+ "fate": "fresh",
+ "reason": null,
+ "checked": "2026-11-14T05:25:42Z",
+ "updated": "2026-11-12T20:50:26Z",
+ "hour": "2026-11-12T20:46:35Z",
+ "modelRun": null,
+ "source": "geoBoundaries; U.S. Census Bureau",
+ "hours": [
+  "2026-11-12T20:46:35Z"
+ ],
+ "files": {
+  "district-areas.json": {
+   "bytes": 43487,
+   "sha256": "658c70320d7ed067659e9a2ea09d13051137f1d4e683b685c0c9d7454aaa7eb9"
+  }
+ },
+ "trees": {
+  "land/district-areas": "de10e381356f"
+ }
+}

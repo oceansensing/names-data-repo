@@ -1,0 +1,24 @@
+{
+ "schema": 1,
+ "product": "eez",
+ "title": "The EEZ boundaries: every line of the Maritime Boundaries Geodatabase, each classed by its type, in three tiers of line tiles (Flanders Marine Institute, MarineRegions.org)",
+ "fate": "fresh",
+ "reason": null,
+ "checked": "2026-11-14T05:25:42Z",
+ "updated": "2026-11-13T14:18:26Z",
+ "hour": "2026-11-13T14:18:06Z",
+ "modelRun": null,
+ "source": "Flanders Marine Institute, Maritime Boundaries Geodatabase",
+ "hours": [
+  "2026-11-13T14:18:06Z"
+ ],
+ "files": {
+  "eez-boundaries.json": {
+   "bytes": 1220,
+   "sha256": "f5486739cae2b4ccf2c3307a5526bf940e2fcb43972e829c2ab20164ecb465b8"
+  }
+ },
+ "trees": {
+  "land/eez-boundaries": "3f807accf753"
+ }
+}

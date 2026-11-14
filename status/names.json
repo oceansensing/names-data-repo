@@ -1,0 +1,21 @@
+{
+ "schema": 1,
+ "product": "names",
+ "title": "The names of land and water and their administrative context, as label points with the zoom each is named from (Natural Earth, GeoNames, the U.S. Census Bureau, geoBoundaries)",
+ "fate": "carried",
+ "reason": "not due: checked 32.6 h ago, runs every 720 h",
+ "checked": "2026-11-12T20:50:26Z",
+ "updated": "2026-11-12T20:50:26Z",
+ "hour": "2026-11-12T20:48:38Z",
+ "modelRun": null,
+ "source": "Natural Earth; GeoNames; geoBoundaries; U.S. Census Bureau",
+ "hours": [
+  "2026-11-12T20:48:38Z"
+ ],
+ "files": {
+  "names.json": {
+   "bytes": 5674420,
+   "sha256": "be0c60ccf2a04804d3e27503ab61781edf3ba1239d40dada8df77d23a6d15f16"
+  }
+ }
+}

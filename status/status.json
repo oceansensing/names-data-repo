@@ -1,0 +1,97 @@
+{
+ "schema": 2,
+ "generated": "2026-11-14T05:25:42Z",
+ "mode": "full",
+ "run": {
+  "id": "43561417575",
+  "url": "https://github.com/oceansensing/names-data-repo/actions/runs/43561417575"
+ },
+ "schedule": {
+  "crons": [
+   "23 5 * * *"
+  ],
+  "longestGapHours": 24.0
+ },
+ "products": {
+  "names": {
+   "title": "The names of land and water and their administrative context, as label points with the zoom each is named from (Natural Earth, GeoNames, the U.S. Census Bureau, geoBoundaries)",
+   "roots": [
+    "names.json"
+   ],
+   "fate": "carried",
+   "reason": "not due: checked 32.6 h ago, runs every 720 h",
+   "checked": "2026-11-12T20:50:26Z",
+   "updated": "2026-11-12T20:50:26Z",
+   "hour": "2026-11-12T20:48:38Z",
+   "modelRun": null,
+   "source": "Natural Earth; GeoNames; geoBoundaries; U.S. Census Bureau",
+   "hours": [
+    "2026-11-12T20:48:38Z"
+   ],
+   "stale": false,
+   "staleCause": null,
+   "ageHours": 32.62,
+   "nearestOffsetHours": 32.62
+  },
+  "borders": {
+   "title": "The districts' and counties' borders: the edges two of the named areas share, in two tiers of line tiles (geoBoundaries, the U.S. Census Bureau)",
+   "roots": [
+    "district-borders.json"
+   ],
+   "fate": "fresh",
+   "reason": null,
+   "checked": "2026-11-14T05:25:42Z",
+   "updated": "2026-11-13T12:11:17Z",
+   "hour": "2026-11-13T12:09:33Z",
+   "modelRun": null,
+   "source": "geoBoundaries; U.S. Census Bureau",
+   "hours": [
+    "2026-11-13T12:09:33Z"
+   ],
+   "stale": false,
+   "staleCause": null,
+   "ageHours": 17.27,
+   "nearestOffsetHours": 17.27
+  },
+  "areas": {
+   "title": "The named areas' outlines: each district's and county's outline with its name, its country's term for it and its state or province, in 5\u00b0 tiles (geoBoundaries, the U.S. Census Bureau)",
+   "roots": [
+    "district-areas.json"
+   ],
+   "fate": "fresh",
+   "reason": null,
+   "checked": "2026-11-14T05:25:42Z",
+   "updated": "2026-11-12T20:50:26Z",
+   "hour": "2026-11-12T20:46:35Z",
+   "modelRun": null,
+   "source": "geoBoundaries; U.S. Census Bureau",
+   "hours": [
+    "2026-11-12T20:46:35Z"
+   ],
+   "stale": false,
+   "staleCause": null,
+   "ageHours": 32.65,
+   "nearestOffsetHours": 32.65
+  },
+  "eez": {
+   "title": "The EEZ boundaries: every line of the Maritime Boundaries Geodatabase, each classed by its type, in three tiers of line tiles (Flanders Marine Institute, MarineRegions.org)",
+   "roots": [
+    "eez-boundaries.json"
+   ],
+   "fate": "fresh",
+   "reason": null,
+   "checked": "2026-11-14T05:25:42Z",
+   "updated": "2026-11-13T14:18:26Z",
+   "hour": "2026-11-13T14:18:06Z",
+   "modelRun": null,
+   "source": "Flanders Marine Institute, Maritime Boundaries Geodatabase",
+   "hours": [
+    "2026-11-13T14:18:06Z"
+   ],
+   "stale": false,
+   "staleCause": null,
+   "ageHours": 15.13,
+   "nearestOffsetHours": 15.13
+  }
+ }
+}
