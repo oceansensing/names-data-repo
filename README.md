@@ -21,7 +21,7 @@ and the website neither draws nor lists them (the site pipeline's D13).
 
 ## Where the data comes from
 
-**Natural Earth** 10m (public domain; its own label points and ranks), **GeoNames**' undersea features (CC BY 4.0; `allCountries.zip` and `featureCodes_en.txt`), the **U.S. Census Bureau**'s 2024 cartographic boundaries of the counties (public domain) and **geoBoundaries** gbOpen ADM2 (CC BY 4.0, each country under its own license; Runfola et al. 2020, PLoS ONE 15(4): e0231866). **Their terms were read before a line was written** (2026-11-11), each country's geoBoundaries license among them: a country is kept only where its license allows commercial use with credit (an allowlist in the fetcher); share-alike licenses and permissions given to geoBoundaries alone leave its districts out. **And Marine Regions'** Maritime Boundaries Geodatabase (Flanders Marine Institute; CC BY 4.0 since its version 11, 2019; cited as *Flanders Marine Institute (2026): MarineRegions.org*), read 2026-11-13: its products are not made available for download here, only the lines drawn from them, on R2 behind a reader's host.
+**Natural Earth** 10m (public domain; its own label points and ranks), **GeoNames**' undersea features (CC BY 4.0; `allCountries.zip` and `featureCodes_en.txt`), the **U.S. Census Bureau**'s 2024 cartographic boundaries of the counties (public domain) and **geoBoundaries** gbOpen ADM2 (CC BY 4.0, each country under its own license; Runfola et al. 2020, PLoS ONE 15(4): e0231866). **Their terms were read before a line was written** (2026-11-11), each country's geoBoundaries license among them: a country is kept only where its license allows redistribution for any use with credit (an allowlist in the fetcher); share-alike licenses and permissions given to geoBoundaries alone leave its districts out. **And Marine Regions'** Maritime Boundaries Geodatabase (Flanders Marine Institute; CC BY 4.0 since its version 11, 2019; cited as *Flanders Marine Institute (2026): MarineRegions.org*), read 2026-11-13: its products are not made available for download here, only the lines drawn from them, on R2 behind a reader's host.
 
 ## How it runs
 
@@ -31,9 +31,9 @@ run time. This repository carries `pipeline/products.toml` and its publish
 workflow, and nothing else executable. Each run publishes to Cloudflare R2 alone
 (the site pipeline's D13). Related repositories: none it depends on.
 
-**Which document gets what, and what "update docs" means across all
-thirty-six repositories, is the doctrine block at the top of `CLAUDE.md`**: the
-same text in all thirty-six, held equal by the site's `check:docs`.
+**Which document gets what, and what "update docs" means across every
+repository of this project, is the doctrine block at the top of `CLAUDE.md`**: the
+same text in each, held equal by the site's `check:docs`.
 
 ## Structure
 
