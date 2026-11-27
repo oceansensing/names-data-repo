@@ -1,15 +1,6 @@
-# Publish this repository's products: fetch with the site's pipelines,
-# validate against its own contract, and publish one build to Cloudflare R2
-# alone: no Pages site (the site pipeline's D13). Written by the site's pipeline/scaffold/new-origin.py
-# from the sibling data repositories' workflow.
-#
-# **Dispatch-only until a dispatched run has published a tree**: prove the
-# pipeline, THEN uncomment the schedule below, in the same commit as the docs.
-# `status/status.json` reports `schedule: null` until then, and the site's
-# watchdog names an origin with no schedule on sight.
-#
-# Needs, from the owner: `PIPELINES_SSH_KEY` (this repository's read-only
-# deploy key on oceansensing.github.io) and the organization's R2_* secrets.
+# Publish this repository's data: built by the pipeline in
+# oceansensing/oceansensing.github.io, which keeps its documentation.
+# Secrets: PIPELINES_SSH_KEY, R2_ACCESS_KEY_ID, R2_ENDPOINT, R2_SECRET_ACCESS_KEY.
 
 name: Publish
 
@@ -20,15 +11,10 @@ on:
         description: 'Rebuild even if the probe says the tree is current'
         type: boolean
         default: false
-      # **A dispatch's `due` names steps whose source is read now** whatever their interval (the names, the
-      # borders, the areas and the EEZ boundaries are made monthly): `due=borders`, `due=areas`, `due=eez`,
-      # `due=names,borders` or `due=all`.
       due:
         description: 'Steps due now whatever their interval (a comma list, or all)'
         type: string
         default: ''
-  # Daily since 2026-11-11, the first dispatched run read (43146399308: 64,580 names, fresh); the build itself once
-  # in 720 hours (`every_hours`), so a month whose sources were down is made the next day.
   schedule:
     - cron: '23 5 * * *'
 
@@ -48,8 +34,6 @@ jobs:
       deploy: ${{ steps.run.outputs.deploy }}
       behind: ${{ steps.run.outputs.behind }}
     steps:
-      # This repository first: actions/checkout cleans its destination, so
-      # taking the root after the others would wipe them.
       - name: Check out this repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Check out the pipelines
@@ -92,10 +76,6 @@ jobs:
         env:
           PIPELINE_ROOT: ${{ github.workspace }}
         run: python3 site/pipeline/orchestrate.py seed
-      # **The borders' tree as last published, from the cache, under the version its root names** (2026-11-12): the
-      # branch keeps the root alone, and a tree the stage lacks would be published absent — so the run would not
-      # deploy (`guard_trees`). A cache that misses costs one build: the fetcher makes the borders again when the
-      # stage lacks the version its root names.
       - name: The published borders' version
         id: tree
         run: |
@@ -107,7 +87,6 @@ jobs:
         with:
           path: site/public/map/land/district-borders
           key: land-district-borders-${{ steps.tree.outputs.version }}
-      # **And the areas' tree** (2026-11-12), the same way: its root names its version, the cache holds its tiles.
       - name: The published areas' version
         id: areas-tree
         run: |
@@ -119,7 +98,6 @@ jobs:
         with:
           path: site/public/map/land/district-areas
           key: land-district-areas-${{ steps.areas-tree.outputs.version }}
-      # **And the EEZ boundaries' tree** (2026-11-13), the same way.
       - name: The published EEZ boundaries' version
         id: eez-tree
         run: |
@@ -142,8 +120,6 @@ jobs:
           PIPELINE_ROOT: ${{ github.workspace }}
           PIPELINE_DUE_NOW: ${{ inputs.due }}
         run: python3 site/pipeline/orchestrate.py run
-      # A set this run made anew is saved under its own version, for the next run to restore — and so is one its
-      # restore missed, or every run after the cache was evicted would miss it again and build it again.
       - name: Name the borders' set on the stage
         id: set
         if: always()
@@ -217,7 +193,6 @@ jobs:
           git commit -q -m "publish $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push -q --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:published
 
-  # R2 alone (the site pipeline's D13).
   publish-r2:
     needs: build
     if: needs.build.outputs.deploy == 'true'
@@ -226,8 +201,6 @@ jobs:
     permissions:
       contents: read
     steps:
-      # The publish, and beside it the writer it packs a tile set into one
-      # archive with (scripts/tile_archive.py).
       - name: Check out the publish script
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -244,7 +217,7 @@ jobs:
           path: site
       - name: Test the publish script
         run: python3 code/pipeline/test_publish_r2.py
-      - name: Publish to R2
+      - name: Publish to storage
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
