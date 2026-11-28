@@ -1,0 +1,20 @@
+{
+ "schema": 1,
+ "generated": "2026-11-28T05:26:45Z",
+ "mode": "full",
+ "fates": {
+  "names": "carried",
+  "borders": "fresh",
+  "areas": "fresh",
+  "eez": "fresh"
+ },
+ "reasons": {
+  "names": "not due: checked 368.6 h ago, runs every 720 h"
+ },
+ "built": {},
+ "withheld": {},
+ "deploy": true,
+ "notes": [],
+ "behind": [],
+ "tile_keys": {}
+}
